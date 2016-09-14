@@ -1,27 +1,47 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="HomePage.aspx.cs" Inherits="SSEProject.Account.HomePage" %>
        <asp:Content ID="ToDoListTable" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:GridView runat="server" ID="itemsGrid" AutoGenerateColumns="False" Width="1041px" Height="350px" HorizontalAlign="Center" AllowSorting="True" OnSelectedIndexChanged="itemsGrid_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True" DataKeyNames="ID" DataSourceID="SqlDataSource">
+           <asp:ImageButton  width="40" height="40" ID="ButtonAssign" runat="server" CommandName="Assign"  ImageUrl="\Resources\Images\assign.ico" ToolTip="Assign Task" ImageAlign="AbsMiddle" Text="Assign"/>
+    <asp:ImageButton   width="30" height="30" ID="ButtonDelete" runat="server" CommandName="Delete"   ImageUrl="\Resources\Images\delete_icon.png" ToolTip="Delete Task" ImageAlign="AbsMiddle" Text="Delete" />
+    <asp:GridView runat="server" ID="itemsGrid" AutoGenerateColumns="False" Width="1430px" Height="350px" HorizontalAlign="Center" AllowSorting="True"
+        onrowdeleting="itemsGrid_RowDeleting"
+        onrowediting="itemsGrid_RowEditing"
+         onrowcancelingedit="itemsGrid_RowCancelingEdit"
+        OnRowDataBound="itemsGrid_RowDataBound"
+        onrowupdating="itemsGrid_RowUpdating"
+         CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True" DataKeyNames="ID" DataSourceID="TestDB">
         <Columns>
-             <asp:CheckBoxField AccessibleHeaderText="Select">
-            </asp:CheckBoxField>
+             <asp:TemplateField>
+            <ItemTemplate>
+                <asp:CheckBox ID="selectRow" runat="server" />
+            </ItemTemplate>
+        </asp:TemplateField>
             <asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" />
             <asp:BoundField DataField="Description" HeaderText="Description" SortExpression="Description" />
             <asp:BoundField DataField="Time" HeaderText="Time" SortExpression="Time" />
             <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
+            <asp:TemplateField>
+                  <ItemTemplate>
+                      <asp:ImageButton  width="20" height="20" ID="ButtonAccept" runat="server" CommandName="Accept"  ImageUrl="\Resources\Images\accept.png"  />
+                      </ItemTemplate>
+                 </asp:TemplateField>
+                       <asp:TemplateField>
+                 <ItemTemplate>
+                     <asp:ImageButton  width="20" height="20" ID="ButtonReject" runat="server" CommandName="Reject"  ImageUrl="\Resources\Images\reject.png"  />
+                      </ItemTemplate>
+                            </asp:TemplateField>
+            <asp:TemplateField>
+                 <EditItemTemplate>
+                     <asp:ImageButton  width="50" height="25" ID="ButtonUpdate" runat="server" CommandName="Update"  ImageUrl="\Resources\Images\update.png"  />
+                     <asp:ImageButton  width="50" height="25" ID="ButtonCancel" runat="server" CommandName="Cancel"  ImageUrl="\Resources\Images\cancel.png"  />
+                 </EditItemTemplate>
+                 <ItemTemplate>
+                   <asp:ImageButton  width="50" height="25" ID="ButtonEdit" runat="server" CommandName="Edit"  ImageUrl="\Resources\Images\edit-button.png"  />
+                </ItemTemplate>
+              <FooterTemplate>
+                <asp:Button ID="ButtonAdd" runat="server" CommandName="AddNew"  Text="Add New Row" />
+                </FooterTemplate>
+                </asp:TemplateField>     
      
-             <asp:TemplateField HeaderText="Actions">
-              <ItemTemplate>
-                <asp:Image Width="20px" Height="20px" src="../Resources/Images/accept.png" runat="server" />
-                <asp:Image Width="20px" Height="20px" src="../Resources/Images/reject.png" runat="server" />
-                <asp:Image Width="20px" Height="20px"  src="../Resources/Images/forward_2.png" runat="server" />
-              </ItemTemplate>
-            </asp:TemplateField>        
-            <asp:ButtonField  ButtonType="Image" ImageUrl="~/Resources/Images/delete_icon.png" Text="Button" >
-            <ControlStyle Height="30px" Width="30px" />
-            </asp:ButtonField>
-            <asp:ButtonField ButtonType="Image" ImageUrl="~/Resources/Images/edit-button.png">
-            <ControlStyle Height="45px" Width="65px" />
-            </asp:ButtonField>
         </Columns>
         <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
         <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
@@ -37,6 +57,8 @@
         <SortedDescendingCellStyle BackColor="#FCF6C0" />
         <SortedDescendingHeaderStyle BackColor="#820000" />
     </asp:GridView>
-           <asp:SqlDataSource ID="SqlDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" ProviderName="<%$ ConnectionStrings:ConnectionString.ProviderName %>" SelectCommand="SELECT * FROM [Items]"></asp:SqlDataSource>
+          
+           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]"></asp:SqlDataSource>
+          
 </asp:Content>
         
