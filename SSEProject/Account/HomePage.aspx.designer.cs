@@ -13,6 +13,24 @@ namespace SSEProject.Account {
     public partial class HomePage {
         
         /// <summary>
+        /// ButtonAssign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ButtonAssign;
+        
+        /// <summary>
+        /// ButtonDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ButtonDelete;
+        
+        /// <summary>
         /// itemsGrid control.
         /// </summary>
         /// <remarks>
@@ -22,12 +40,12 @@ namespace SSEProject.Account {
         protected global::System.Web.UI.WebControls.GridView itemsGrid;
         
         /// <summary>
-        /// SqlDataSource control.
+        /// TestDB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource;
+        protected global::System.Web.UI.WebControls.SqlDataSource TestDB;
     }
 }
