@@ -1,18 +1,32 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="HomePage.aspx.cs" Inherits="SSEProject.Account.HomePage" %>
        <asp:Content ID="ToDoListTable" ContentPlaceHolderID="MainContent" runat="server">
-           <asp:ImageButton  width="40" height="40" ID="ButtonAssign" runat="server" CommandName="Assign"  ImageUrl="\Resources\Images\assign.ico" ToolTip="Assign Task" ImageAlign="AbsMiddle" Text="Assign"/>
-    <asp:ImageButton   width="30" height="30" ID="ButtonDelete" runat="server" CommandName="Delete"   ImageUrl="\Resources\Images\delete_icon.png" ToolTip="Delete Task" ImageAlign="AbsMiddle" Text="Delete" />
-    <asp:GridView runat="server" ID="itemsGrid" AutoGenerateColumns="False" Width="1430px" Height="350px" HorizontalAlign="Center" AllowSorting="True"
-        onrowdeleting="itemsGrid_RowDeleting"
+           <script type="text/javascript">  
+
+        function DeleteConfirm() 
+        {  
+            var Ans = confirm("Do you want to Delete Selected To-Do item?");  
+            if (Ans)
+            {  
+                return true;  
+            }  
+            else 
+            {  
+                return false;  
+            }  
+        }  
+</script>
+    <asp:ImageButton  width="40" height="40" ID="ButtonAssign" runat="server" ImageUrl="\Resources\Images\assign.ico" ToolTip="Assign Task" ImageAlign="AbsMiddle"/>
+    <asp:ImageButton   width="30" height="30" ID="ButtonDelete" OnClick="buttonDelete_Click" runat="server" ImageUrl="\Resources\Images\delete_icon.png" ToolTip="Delete Task" ImageAlign="AbsMiddle"/>
+    
+           <asp:GridView runat="server" ID="itemsGrid" AutoGenerateColumns="False" Width="1430px" Height="350px" HorizontalAlign="Center" AllowSorting="True"
         onrowediting="itemsGrid_RowEditing"
-         onrowcancelingedit="itemsGrid_RowCancelingEdit"
-        OnRowDataBound="itemsGrid_RowDataBound"
-        onrowupdating="itemsGrid_RowUpdating"
-         CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True" DataKeyNames="ID" DataSourceID="TestDB">
+         onrowcancelingedit="itemsGrid_RowCancelingEdit" 
+               onrowupdating="itemsGrid_RowUpdating" 
+         CellPadding="4" ForeColor="#333333" GridLines="None" AllowPaging="True" DataKeyNames="ID">
         <Columns>
              <asp:TemplateField>
             <ItemTemplate>
-                <asp:CheckBox ID="selectRow" runat="server" />
+                <asp:CheckBox ID="selectRow" runat="server"/>
             </ItemTemplate>
         </asp:TemplateField>
             <asp:BoundField DataField="ID" HeaderText="ID" InsertVisible="False" ReadOnly="True" SortExpression="ID" />
@@ -37,9 +51,9 @@
                  <ItemTemplate>
                    <asp:ImageButton  width="50" height="25" ID="ButtonEdit" runat="server" CommandName="Edit"  ImageUrl="\Resources\Images\edit-button.png"  />
                 </ItemTemplate>
-              <FooterTemplate>
+              <ItemTemplate>
                 <asp:Button ID="ButtonAdd" runat="server" CommandName="AddNew"  Text="Add New Row" />
-                </FooterTemplate>
+                </ItemTemplate>
                 </asp:TemplateField>     
      
         </Columns>
@@ -58,7 +72,8 @@
         <SortedDescendingHeaderStyle BackColor="#820000" />
     </asp:GridView>
           
-           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]"></asp:SqlDataSource>
+           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
+           </asp:SqlDataSource>
           
 </asp:Content>
         
