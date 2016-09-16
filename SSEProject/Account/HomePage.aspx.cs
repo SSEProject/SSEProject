@@ -11,7 +11,7 @@ namespace SSEProject.Account
 {
     public partial class HomePage : System.Web.UI.Page
     {
-        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = Z:\SSE\Git\Git\SSEProject\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
         String commandText = "";
         protected void Page_Load(object sender, EventArgs e)
         {
