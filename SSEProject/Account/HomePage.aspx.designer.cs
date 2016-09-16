@@ -58,6 +58,15 @@ namespace SSEProject.Account {
         protected global::System.Web.UI.WebControls.ImageButton ButtonDelete;
         
         /// <summary>
+        /// MessageBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MessageBox;
+        
+        /// <summary>
         /// itemsGrid control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace SSEProject.Account {
         protected global::System.Web.UI.WebControls.GridView itemsGrid;
         
         /// <summary>
+        /// NewRecord control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton NewRecord;
+        
+        /// <summary>
         /// TestDB control.
         /// </summary>
         /// <remarks>
@@ -74,14 +92,5 @@ namespace SSEProject.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource TestDB;
-        
-        /// <summary>
-        /// MessageBox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label MessageBox;
     }
 }

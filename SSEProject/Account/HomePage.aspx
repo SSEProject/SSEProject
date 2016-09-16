@@ -14,17 +14,19 @@
                        return false;
                    }
                }
-
-           </script>
-           <asp:ScriptManager ID="scriptManager" runat="server"   />
+              </script>
+           
+ <asp:ScriptManager ID="scriptManager" runat="server" />
 
 <asp:UpdatePanel ID="updatePanel" runat="server" UpdateMode="Conditional">                 
    <ContentTemplate>
-   <asp:Timer runat="server" ID="Countdown_Timer" Interval="5000" ontick="Countdown_Timer_Tick"></asp:Timer>
+   <asp:Timer runat="server" ID="Countdown_Timer" Interval="1000" ontick="Countdown_Timer_Tick"></asp:Timer>
          <asp:ImageButton  width="60" height="60" ID="ButtonAssign" OnClick="buttonAssign_Click" runat="server" ImageUrl="\Resources\Images\assign.ico" ToolTip="Assign Task" ImageAlign="AbsMiddle"/>
          <asp:ImageButton   width="70" height="70" ID="ButtonDelete" OnClick="buttonDelete_Click" runat="server" ImageUrl="\Resources\Images\delete_icon.png" ToolTip="Delete Task" ImageAlign="AbsMiddle"/>
+          
+         <asp:Label ID="MessageBox" runat="server" BackColor="#FF9999" BorderColor="#CC0000" BorderStyle="Double" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Times New Roman" Font-Size="Large" ForeColor="Black"></asp:Label>
     
-           <asp:GridView ID="itemsGrid" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating" >  
+           <asp:GridView ID="itemsGrid" runat="server" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating" Width="1350px" >  
                 <Columns>  
                  <asp:TemplateField HeaderText="Select">
                     <ItemTemplate>
@@ -75,7 +77,7 @@
                         <asp:Label ID="lbl_Timer" runat="server" Text=""></asp:Label>  
                     </ItemTemplate>  
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Rockwell Extra Bold" Font-Size="X-Large" />
                 </asp:TemplateField>
                 <asp:TemplateField>  
                     <ItemTemplate>  
@@ -84,9 +86,10 @@
                     <EditItemTemplate>  
                         <asp:ImageButton  width="60" height="35" ID="ButtonUpdate" runat="server" CommandName="Update"  ImageUrl="\Resources\Images\update.png"  />  
                         <asp:ImageButton  width="60" height="35" ID="ButtonCancel" runat="server" CommandName="Cancel"  ImageUrl="\Resources\Images\cancel.png"  /> 
-                    </EditItemTemplate> 
+                    </EditItemTemplate>
+                     
                     <FooterTemplate>  <%--SHOWS BLANK FILEDS AT THE BOTTOM OF THE GRIDVIEW.--%>
-                         <tr>
+                           <tr>
                             <th>ID</th>
                             <th>Description</th>
                             <th>Time</th>
@@ -101,12 +104,11 @@
                             </td>
                             <td><asp:TextBox ID="tbStatus"   runat="server" /></td>
                             <td>
-                                <asp:ImageButton  width="70" height="35" ID="ButtonAdd" runat="server" OnClick="buttonAdd_Click" 
+                                <asp:ImageButton  width="70" height="35" ID="ButtonAddFooter" runat="server" OnClick="buttonAdd_Click" 
                                     CommandName="Footer"  ImageUrl="\Resources\Images\add.png" />
                             </td>
                         </tr>
-                        </div>   
-                    </FooterTemplate>
+                       </FooterTemplate>
                       </asp:TemplateField>
             </Columns>  
                <EmptyDataTemplate>  <%--SHOWS BLANK FILEDS WHEN THERE ARE NO TASKS TO SHOW.--%>
@@ -124,19 +126,18 @@
                             </td>
                             <td><asp:TextBox ID="tbStatus"   runat="server" /></td>
                             <td>
-                                <asp:ImageButton  width="70" height="35" ID="ButtonAdd" runat="server" OnClick="buttonAdd_Click" 
+                                <asp:ImageButton  width="70" height="35" ID="ButtonAddEmpty" runat="server" OnClick="buttonAdd_Click" 
                                     CommandName="EmptyDataTemplate"  ImageUrl="\Resources\Images\add.png" />
                             </td>
                         </tr>
                    </EmptyDataTemplate>
             <HeaderStyle BackColor="#669999" ForeColor="#000000"/>  
         </asp:GridView>  
-      
-          
+        <asp:ImageButton  width="80" height="80" ID="NewRecord" runat="server" OnClick="newRecord_Click" CommandName="Header"  ImageUrl="\Resources\Images\add-record.png"  ToolTip="Add new To-Do Item"/>
            <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
            </asp:SqlDataSource>
-         <asp:Label ID="MessageBox" runat="server" BackColor="#FF9999" BorderColor="#CC0000" BorderStyle="Double" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Times New Roman" Font-Size="Large" ForeColor="Black"></asp:Label>
-         </ContentTemplate>  
+         </ContentTemplate>
+    
        </asp:UpdatePanel>
      
 </asp:Content>

@@ -130,9 +130,8 @@ namespace SSEProject.Account
             if (ids.Count != 0)
             {
                 Debug.Write("---------------------->>Before going to Assign.aspx");
-                string queryString = "Assign.aspx";
-                string newWin = "window.open('" + queryString + "');";
-                ClientScript.RegisterStartupScript(this.GetType(), "pop", newWin, true);
+                Response.Redirect("~/Account/Assign.aspx");
+                //Response.Write("  <script language='javascript'> window.open('Assign.aspx','','width=1020,Height=720,fullscreen=1,location=0,scrollbars=1,menubar=1,toolbar=1'); </script>");
             }
             else
             {
@@ -170,7 +169,7 @@ namespace SSEProject.Account
                 cmd.ExecuteNonQuery();
                 itemsGrid.EditIndex = -1;
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
                 MessageBox.Text = "Please enter all the values and try again! ";
             }
@@ -181,10 +180,19 @@ namespace SSEProject.Account
                 Countdown_Timer.Enabled = Countdown_Timer.Enabled;
             }
         }
+        
+        protected void newRecord_Click(object sender, EventArgs e)
+        {
+            Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
+            NewRecord.Enabled = !NewRecord.Enabled;
+            itemsGrid.ShowFooter = true;
+            loadList();
+        }
         protected void buttonAdd_Click(object sender, EventArgs e)
         {
             ImageButton bt = (ImageButton)sender;
             GridViewRow grdRow = (GridViewRow)bt.Parent.Parent;
+
             try
             {
                 TextBox ID = (TextBox)(grdRow.Cells[0].FindControl("tbID"));
@@ -201,16 +209,22 @@ namespace SSEProject.Account
                 cmd.Parameters.AddWithValue("@Status", Status.Text.Trim());
                 con.Open();
                 cmd.ExecuteNonQuery();
-                
+
             }
-            catch (NullReferenceException ex)
+            catch (Exception ex)
             {
                 MessageBox.Text = "Please enter all the values and try again! ";
             }
             finally
             {
                 con.Close();
+                itemsGrid.ShowFooter = false;
+                NewRecord.Enabled = NewRecord.Enabled;
                 loadList();
+                if (!Countdown_Timer.Enabled)
+                {
+                    Countdown_Timer.Enabled = Countdown_Timer.Enabled;
+                }
             }
         }
         protected void itemsGrid_RowDataBound(object sender, GridViewRowEventArgs e)
