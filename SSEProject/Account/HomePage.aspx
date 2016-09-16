@@ -133,7 +133,7 @@
         </asp:GridView>  
       
           
-           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
+           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
            </asp:SqlDataSource>
          <asp:Label ID="MessageBox" runat="server" BackColor="#FF9999" BorderColor="#CC0000" BorderStyle="Double" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Times New Roman" Font-Size="Large" ForeColor="Black"></asp:Label>
          </ContentTemplate>  

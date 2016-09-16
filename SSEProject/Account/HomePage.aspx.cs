@@ -11,7 +11,7 @@ namespace SSEProject.Account
 {
     public partial class HomePage : System.Web.UI.Page
     {
-        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
         String commandText = "";
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -96,12 +96,12 @@ namespace SSEProject.Account
                         DeleteRecord(id.Text);
                     }
                 }
-                loadList();
-                Countdown_Timer.Enabled = Countdown_Timer.Enabled;
             }
             finally
             {
                 con.Close();
+                loadList();
+                Countdown_Timer.Enabled = Countdown_Timer.Enabled;
             }
         }
         protected void buttonAssign_Click(object sender, EventArgs e)
@@ -169,8 +169,6 @@ namespace SSEProject.Account
                 con.Open();
                 cmd.ExecuteNonQuery();
                 itemsGrid.EditIndex = -1;
-                loadList();
-                Countdown_Timer.Enabled = Countdown_Timer.Enabled;
             }
             catch (NullReferenceException ex)
             {
@@ -179,6 +177,8 @@ namespace SSEProject.Account
             finally
             {
                 con.Close();
+                loadList();
+                Countdown_Timer.Enabled = Countdown_Timer.Enabled;
             }
         }
         protected void buttonAdd_Click(object sender, EventArgs e)
@@ -190,7 +190,7 @@ namespace SSEProject.Account
                 TextBox ID = (TextBox)(grdRow.Cells[0].FindControl("tbID"));
                 TextBox Description = (TextBox)(grdRow.Cells[0].FindControl("tbDescription"));
                 TextBox Time = (TextBox)(grdRow.Cells[0].FindControl("tbTime"));
-                DateTime Time_Date = DateTime.ParseExact(Time.Text.Trim(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
+                DateTime Time_Date = DateTime.ParseExact(Time.Text, "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
                 TextBox Status = (TextBox)(grdRow.Cells[0].FindControl("tbStatus"));
                 string sqlQuery = "INSERT INTO [Items] VALUES(@ID, @Description, @Time, @Status)";
                 OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
@@ -201,7 +201,7 @@ namespace SSEProject.Account
                 cmd.Parameters.AddWithValue("@Status", Status.Text.Trim());
                 con.Open();
                 cmd.ExecuteNonQuery();
-                loadList();
+                
             }
             catch (NullReferenceException ex)
             {
@@ -210,6 +210,7 @@ namespace SSEProject.Account
             finally
             {
                 con.Close();
+                loadList();
             }
         }
         protected void itemsGrid_RowDataBound(object sender, GridViewRowEventArgs e)
