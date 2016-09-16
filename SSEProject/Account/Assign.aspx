@@ -21,22 +21,30 @@
                  <asp:TemplateField HeaderText="ID">  
                     <ItemTemplate>  
                         <asp:Label ID="ID" runat="server" Text='<%#Eval("ID") %>'></asp:Label>  
-                    </ItemTemplate>  
+                    </ItemTemplate>
+                   <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Description">  
                     <ItemTemplate>  
                         <asp:Label ID="Description" runat="server" Text='<%#Eval("Description") %>'></asp:Label>  
-                    </ItemTemplate>  
+                    </ItemTemplate>
+                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />  
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Time">  
                     <ItemTemplate>  
-                        <asp:Label ID="Time" runat="server" Text='<%#Eval("Time") %>'></asp:Label>  
-                    </ItemTemplate>  
+                        <asp:Label ID="Time" runat="server" Text='<%#Convert.ToDateTime(Eval("Time")).ToString("MM/dd/yyyy hh:mm:ss tt")%>'></asp:Label>  
+                    </ItemTemplate> 
+                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Status">  
                     <ItemTemplate>  
                         <asp:Label ID="Status" runat="server" Text='<%#Eval("Status") %>'></asp:Label>  
-                    </ItemTemplate>    
+                    </ItemTemplate>
+                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />    
                 </asp:TemplateField>
                   </Columns>
         <HeaderStyle BackColor="#6495ED" ForeColor="#000000"/> 
@@ -49,4 +57,5 @@
         </asp:DropDownList>
         
         <asp:ImageButton  width="172px" height="70px" ID="ButtonAssignGo" runat="server"   ImageUrl="\Resources\Images\GoButton.png"  ImageAlign="AbsMiddle"/>
+      <asp:Label ID="MessageBox" runat="server" BackColor="#FF9999" BorderColor="#CC0000" BorderStyle="Double" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Times New Roman" Font-Size="Large" ForeColor="Black"></asp:Label>
     </asp:Content>
