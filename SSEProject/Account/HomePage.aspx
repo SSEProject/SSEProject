@@ -16,10 +16,10 @@
                }
 
            </script>
-         <asp:ImageButton  width="40" height="40" ID="ButtonAssign" runat="server" ImageUrl="\Resources\Images\assign.ico" ToolTip="Assign Task" ImageAlign="AbsMiddle"/>
-         <asp:ImageButton   width="30" height="30" ID="ButtonDelete" OnClick="buttonDelete_Click" runat="server" ImageUrl="\Resources\Images\delete_icon.png" ToolTip="Delete Task" ImageAlign="AbsMiddle"/>
+         <asp:ImageButton  width="60" height="60" ID="ButtonAssign" OnClick="buttonAssign_Click" runat="server" ImageUrl="\Resources\Images\assign.ico" ToolTip="Assign Task" ImageAlign="AbsMiddle"/>
+         <asp:ImageButton   width="70" height="70" ID="ButtonDelete" OnClick="buttonDelete_Click" runat="server" ImageUrl="\Resources\Images\delete_icon.png" ToolTip="Delete Task" ImageAlign="AbsMiddle"/>
     
-           <asp:GridView ID="itemsGrid" runat="server" ShowFooter="true" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating">  
+           <asp:GridView ID="itemsGrid" runat="server" ShowFooter="true" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating" Width="1300px">  
                 <Columns>  
                  <asp:TemplateField>
                     <ItemTemplate>
@@ -41,10 +41,10 @@
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Time">  
                     <ItemTemplate>  
-                        <asp:Label ID="lbl_Time" runat="server" Text='<%#Eval("Time") %>'></asp:Label>  
+                        <asp:Label ID="lbl_Time" runat="server" Text='<%#Convert.ToDateTime(Eval("Time")).ToString("MM/dd/yyyy hh:mm:ss tt")%>'></asp:Label>  
                     </ItemTemplate>  
                     <EditItemTemplate>  
-                        <asp:TextBox ID="Time" runat="server" Text='<%#Eval("Time") %>'></asp:TextBox>  
+                        <asp:TextBox ID="Time" runat="server" Text='<%#Convert.ToDateTime(Eval("Time")).ToString("MM/dd/yyyy hh:mm:ss tt")%>'></asp:TextBox>  
                     </EditItemTemplate>  
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Status">  
@@ -57,14 +57,13 @@
                 </asp:TemplateField>
                 <asp:TemplateField>  
                     <ItemTemplate>  
-                        <asp:ImageButton  width="50" height="25" ID="ButtonEdit" runat="server" CommandName="Edit"  ImageUrl="\Resources\Images\edit-button.png"  />
+                        <asp:ImageButton  width="70" height="35" ID="ButtonEdit" runat="server" CommandName="Edit"  ImageUrl="\Resources\Images\edit-button.png"  />
                     </ItemTemplate>  
                     <EditItemTemplate>  
-                        <asp:ImageButton  width="50" height="25" ID="ButtonUpdate" runat="server" CommandName="Update"  ImageUrl="\Resources\Images\update.png"  />  
-                        <asp:ImageButton  width="50" height="25" ID="ButtonCancel" runat="server" CommandName="Cancel"  ImageUrl="\Resources\Images\cancel.png"  /> 
+                        <asp:ImageButton  width="70" height="35" ID="ButtonUpdate" runat="server" CommandName="Update"  ImageUrl="\Resources\Images\update.png"  />  
+                        <asp:ImageButton  width="70" height="35" ID="ButtonCancel" runat="server" CommandName="Cancel"  ImageUrl="\Resources\Images\cancel.png"  /> 
                     </EditItemTemplate> 
                     <FooterTemplate>  <%--SHOWS BLANK FILEDS AT THE BOTTOM OF THE GRIDVIEW.--%>
-                        <div style="background-color:grey; color:black"></div>
                          <tr>
                             <th>ID</th>
                             <th>Description</th>
@@ -75,10 +74,12 @@
                         <tr>
                            <td><asp:TextBox ID="tbID"   runat="server" /></td>
                            <td><asp:TextBox ID="tbDescription"   runat="server" /></td>
-                            <td><asp:TextBox ID="tbTime"  runat="server" /></td>
+                            <td><asp:TextBox ID="tbTime"  runat="server" />
+                                <asp:CustomValidator runat="server" ControlToValidate="tbTime" ErrorMessage="Date was in incorrect format" OnServerValidate="CustomValidator1_ServerValidate" />
+                            </td>
                             <td><asp:TextBox ID="tbStatus"   runat="server" /></td>
                             <td>
-                                <asp:ImageButton  width="50" height="30" ID="ButtonAdd" runat="server" OnClick="buttonAdd_Click" 
+                                <asp:ImageButton  width="70" height="35" ID="ButtonAdd" runat="server" OnClick="buttonAdd_Click" 
                                     CommandName="Footer"  ImageUrl="\Resources\Images\add.png" />
                             </td>
                         </tr>
@@ -87,7 +88,6 @@
                       </asp:TemplateField>
             </Columns>  
                <EmptyDataTemplate>  <%--SHOWS BLANK FILEDS WHEN THERE ARE NO TASKS TO SHOW.--%>
-                   
                         <tr>
                             <th>ID</th>
                             <th>Description</th>
@@ -98,21 +98,20 @@
                         <tr>
                            <td><asp:TextBox ID="tbID"   runat="server" /></td>
                            <td><asp:TextBox ID="tbDescription"   runat="server" /></td>
-                            <td><asp:TextBox ID="tbTime"  runat="server" /></td>
+                            <td><asp:TextBox ID="tbTime"  runat="server" /><asp:CustomValidator runat="server" ControlToValidate="tbTime" ErrorMessage="Date was in incorrect format" OnServerValidate="CustomValidator1_ServerValidate" />
+                            </td>
                             <td><asp:TextBox ID="tbStatus"   runat="server" /></td>
                             <td>
-                                <asp:ImageButton  width="50" height="30" ID="ButtonAdd" runat="server" OnClick="buttonAdd_Click" 
+                                <asp:ImageButton  width="70" height="35" ID="ButtonAdd" runat="server" OnClick="buttonAdd_Click" 
                                     CommandName="EmptyDataTemplate"  ImageUrl="\Resources\Images\add.png" />
                             </td>
                         </tr>
-                      
-                    </EmptyDataTemplate>
-              
+                   </EmptyDataTemplate>
             <HeaderStyle BackColor="#669999" ForeColor="#000000"/>  
         </asp:GridView>  
       
           
-           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
+           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
            </asp:SqlDataSource>
          
 </asp:Content>
