@@ -50,6 +50,8 @@ namespace SSEProject
 
         protected void master_Page_PreLoad(object sender, EventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine("Got it man");
+
             if (!IsPostBack)
             {
                 // Set Anti-XSRF token
@@ -63,6 +65,32 @@ namespace SSEProject
                     || (string)ViewState[AntiXsrfUserNameKey] != (Context.User.Identity.Name ?? String.Empty))
                 {
                     throw new InvalidOperationException("Validation of Anti-XSRF token failed.");
+                }
+            }
+        }
+
+        public void RenewCurrentUser()
+        {
+            System.Web.HttpCookie authCookie =
+                System.Web.HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (authCookie != null)
+            {
+                FormsAuthenticationTicket authTicket = null;
+                authTicket = FormsAuthentication.Decrypt(authCookie.Value);
+
+                if (authTicket != null && !authTicket.Expired)
+                {
+                    FormsAuthenticationTicket newAuthTicket = authTicket;
+
+                    if (FormsAuthentication.SlidingExpiration)
+                    {
+                        newAuthTicket = FormsAuthentication.RenewTicketIfOld(authTicket);
+                    }
+                    string userData = newAuthTicket.UserData;
+                    string[] roles = userData.Split(',');
+
+                    System.Web.HttpContext.Current.User =
+                        new System.Security.Principal.GenericPrincipal(new FormsIdentity(newAuthTicket), roles);
                 }
             }
         }
