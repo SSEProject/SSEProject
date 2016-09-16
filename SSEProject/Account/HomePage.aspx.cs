@@ -12,6 +12,8 @@ namespace SSEProject.Account
     public partial class HomePage : System.Web.UI.Page
     {
         OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        System.Timers.Timer myTimer = new System.Timers.Timer();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             
@@ -19,6 +21,11 @@ namespace SSEProject.Account
             {
                 loadList();
                 ButtonDelete.Attributes.Add("onclick", "javascript:return DeleteConfirm()");
+                myTimer.Elapsed += new System.Timers.ElapsedEventHandler(TimerEventProcessor);
+
+                //Sets the timer interval to 5 seconds.
+                myTimer.Interval = 5000;
+                myTimer.Start();
             }
         }
 
@@ -147,6 +154,14 @@ namespace SSEProject.Account
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                Label Time = e.Row.FindControl("lbl_Time") as Label;
+                DateTime Time_Date = DateTime.ParseExact(Time.Text.Trim(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
+                var diff = (Time_Date.Date) - (DateTime.Now);
+                if (diff.TotalSeconds > 0)
+                {
+                    Label lbl_Timer = e.Row.FindControl("lbl_Timer") as Label;
+                    lbl_Timer.Text = string.Format("{0} d {1:D2}:{2:D2}:{3:D2}", diff.Days, diff.Hours, diff.Minutes, diff.Seconds);
+                }
                 DataRowView drv = e.Row.DataItem as DataRowView;
                 if (drv["Status"].ToString().Equals("Completed"))
                 {
@@ -171,5 +186,12 @@ namespace SSEProject.Account
             DateTime d;
             e.IsValid = DateTime.TryParseExact(e.Value, "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out d);
         }
+        private void TimerEventProcessor(object myObject,
+                                           EventArgs myEventArgs)
+        {
+            itemsGrid_RowDataBound(myObject, (GridViewRowEventArgs)myEventArgs);
+
+        }
+           
     }
 }

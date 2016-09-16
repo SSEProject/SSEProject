@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="HomePage.aspx.cs" Inherits="SSEProject.Account.HomePage" %>
+﻿<%@ Page Language="C#" AutoEventWireup="True" MasterPageFile="~/Site.Master" CodeBehind="HomePage.aspx.cs" Inherits="SSEProject.Account.HomePage" %>
        <asp:Content ID="ToDoListTable" ContentPlaceHolderID="MainContent" runat="server">
            <script type="text/javascript">  
 
@@ -19,17 +19,21 @@
          <asp:ImageButton  width="60" height="60" ID="ButtonAssign" OnClick="buttonAssign_Click" runat="server" ImageUrl="\Resources\Images\assign.ico" ToolTip="Assign Task" ImageAlign="AbsMiddle"/>
          <asp:ImageButton   width="70" height="70" ID="ButtonDelete" OnClick="buttonDelete_Click" runat="server" ImageUrl="\Resources\Images\delete_icon.png" ToolTip="Delete Task" ImageAlign="AbsMiddle"/>
     
-           <asp:GridView ID="itemsGrid" runat="server" ShowFooter="true" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating" Width="1300px">  
+           <asp:GridView ID="itemsGrid" runat="server" ShowFooter="True" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating" Width="1300px">  
                 <Columns>  
-                 <asp:TemplateField>
+                 <asp:TemplateField HeaderText="Select">
                     <ItemTemplate>
                         <asp:CheckBox ID="selectRow" runat="server"/>
                     </ItemTemplate>
+                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="30px" />
                </asp:TemplateField>
                 <asp:TemplateField HeaderText="ID">  
                     <ItemTemplate>  
                         <asp:Label ID="lbl_ID" runat="server" Text='<%#Eval("ID") %>'></asp:Label>  
                     </ItemTemplate>  
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="40px" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Description">  
                     <ItemTemplate>  
@@ -38,6 +42,8 @@
                     <EditItemTemplate>  
                         <asp:TextBox ID="Description" runat="server" Text='<%#Eval("Description") %>'></asp:TextBox>  
                     </EditItemTemplate>  
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Time">  
                     <ItemTemplate>  
@@ -46,6 +52,8 @@
                     <EditItemTemplate>  
                         <asp:TextBox ID="Time" runat="server" Text='<%#Convert.ToDateTime(Eval("Time")).ToString("MM/dd/yyyy hh:mm:ss tt")%>'></asp:TextBox>  
                     </EditItemTemplate>  
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Status">  
                     <ItemTemplate>  
@@ -54,6 +62,15 @@
                     <EditItemTemplate>  
                         <asp:TextBox ID="Status" runat="server" Text='<%#Eval("Status") %>'></asp:TextBox>  
                     </EditItemTemplate>  
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Timer">  
+                    <ItemTemplate> 
+                        <asp:Label ID="lbl_Timer" runat="server" Text=""></asp:Label>  
+                    </ItemTemplate>  
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Width="100px" />
                 </asp:TemplateField>
                 <asp:TemplateField>  
                     <ItemTemplate>  
