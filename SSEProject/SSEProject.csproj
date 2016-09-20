@@ -208,6 +208,9 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\Images\hourglass_icon.jpg" />
+    <Content Include="Resources\Images\nicehourglass.ico" />
+    <Content Include="Resources\Images\nicehourglasssmall.png" />
     <Content Include="Resources\Sample.xlsx" />
     <Content Include="Resources\To-Do-List.laccdb" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

@@ -43,6 +43,8 @@ namespace SSEProject
                     responseCookie.Secure = true;
                 }
                 Response.Cookies.Set(responseCookie);
+
+                System.Diagnostics.Debug.WriteLine("Got it man3333");
             }
 
             Page.PreLoad += master_Page_PreLoad;
@@ -71,6 +73,8 @@ namespace SSEProject
 
         public void RenewCurrentUser()
         {
+            System.Diagnostics.Debug.WriteLine("Got it man2222");
+
             System.Web.HttpCookie authCookie =
                 System.Web.HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
             if (authCookie != null)
@@ -103,6 +107,7 @@ namespace SSEProject
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
             Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Response.Redirect("~/Account/Login.aspx");
         }
     }
 

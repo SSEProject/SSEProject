@@ -6,27 +6,32 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> -My To-Do List</title>
+    <title><%: Page.Title %> CountDown </title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
     <webopt:bundlereference runat="server" path="~/Content/css" />
-    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/Resources/Images/nicehourglass.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
 <body>
     <form runat="server">
 
         <div class="navbar navbar-inverse navbar-fixed-top">
+            
             <div class="container">
+                
                 <div class="navbar-header">
+                    <asp:Image  ID="Image1" runat="server" ImageUrl="~/Resources/Images/nicehourglasssmall.png" BorderStyle="None"/>
+                    
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" runat="server">To-do Manager</a></div>
+                    
+                    <a class="navbar-brand" runat="server">CountDown</a></div>
                 <div class="navbar-collapse collapse">
 
                     <%-- Remove navgiation buttons if user is not logged in --%>
@@ -64,7 +69,7 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My To-Do List</p>
+                <p>&copy; <%: DateTime.Now.Year %> - CountDown</p>
             </footer>
         </div>
     </form>
