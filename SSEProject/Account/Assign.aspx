@@ -56,6 +56,6 @@
      <asp:DropDownList ID="usersDropDownList" runat="server" DataTextField="Username" DataValueField="Username" Height="50px" Width="200px">
         </asp:DropDownList>
         
-        <asp:ImageButton  width="172px" height="70px" ID="ButtonAssignGo" runat="server"   ImageUrl="\Resources\Images\GoButton.png"  ImageAlign="AbsMiddle"/>
+        <asp:ImageButton  width="172px" height="70px" ID="ButtonAssignGo" runat="server"   ImageUrl="\Resources\Images\GoButton.png"  ImageAlign="AbsMiddle" OnClick="ButtonAssignGo_Click"/>
       <asp:Label ID="MessageBox" runat="server" BackColor="#FF9999" BorderColor="#CC0000" BorderStyle="Double" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Times New Roman" Font-Size="Large" ForeColor="Black"></asp:Label>
     </asp:Content>

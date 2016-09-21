@@ -30,7 +30,7 @@
                 <Columns>  
                  <asp:TemplateField HeaderText="Select">
                     <ItemTemplate>
-                        <asp:CheckBox ID="selectRow" runat="server"/>
+                        <asp:CheckBox ID="selectRow" runat="server" OnCheckedChanged="selectedIndexChanged" />
                     </ItemTemplate>
                      <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                      <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
@@ -78,6 +78,13 @@
                     </ItemTemplate>  
                         <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Rockwell Extra Bold" Font-Size="X-Large" />
+                </asp:TemplateField>
+                     <asp:TemplateField HeaderText="AssignedTo">  
+                    <ItemTemplate>  
+                        <asp:Label ID="AssignedTo" runat="server" Text='<%#Eval("AssignedTo") %>'></asp:Label>  
+                    </ItemTemplate>  
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                 </asp:TemplateField>
                 <asp:TemplateField>  
                     <ItemTemplate>  
@@ -134,7 +141,7 @@
             <HeaderStyle BackColor="#669999" ForeColor="#000000"/>  
         </asp:GridView>  
         <asp:ImageButton  width="80" height="80" ID="NewRecord" runat="server" OnClick="newRecord_Click" CommandName="Header"  ImageUrl="\Resources\Images\add-record.png"  ToolTip="Add new To-Do Item"/>
-           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
+           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
            </asp:SqlDataSource>
          </ContentTemplate>
     

@@ -11,8 +11,8 @@ namespace SSEProject.Account
 {
     public partial class HomePage : System.Web.UI.Page
     {
-        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = Z:\SSE\Git\Git\SSEProject\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
-        String commandText = "";
+        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        string commandText = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -21,7 +21,7 @@ namespace SSEProject.Account
                 ButtonDelete.Attributes.Add("onclick", "javascript:return DeleteConfirm()");
             }
         }
-        protected void loadList()
+      protected void loadList()
         {
             try
             {
@@ -44,12 +44,18 @@ namespace SSEProject.Account
                         {
                             DateTime Time_Date = DateTime.ParseExact(Time.Text.Trim(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
                             var diff = (Time_Date.Date) - (DateTime.Now);
+                            Label lbl_Timer = grow.FindControl("lbl_Timer") as Label;
                             if (diff.TotalSeconds > 0)
-                            {
-                                Label lbl_Timer = grow.FindControl("lbl_Timer") as Label;
+                            {  
                                 lbl_Timer.Text = string.Format("{0} d {1:D2}:{2:D2}:{3:D2}", diff.Days, diff.Hours, diff.Minutes, diff.Seconds);
                             }
+                            else
+                            {
+                                lbl_Timer.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFAEAE");
+                                lbl_Timer.Text = "Crossed Deadline!!";
+                            }
                         }
+                       
                     }
                     catch (NullReferenceException ex)
                     {
@@ -60,11 +66,12 @@ namespace SSEProject.Account
             finally
             {
                 con.Close();
+                MessageBox.Text = "";
             }
         }
         protected void itemsGrid_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
+            Countdown_Timer.Enabled = false;
             itemsGrid.EditIndex = e.NewEditIndex;
              loadList();
         }
@@ -72,7 +79,54 @@ namespace SSEProject.Account
         {
             itemsGrid.EditIndex = -1;
             loadList();
-            Countdown_Timer.Enabled = Countdown_Timer.Enabled;
+            Countdown_Timer.Enabled = false;
+        }
+        protected void itemsGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            if (Countdown_Timer.Enabled==true)
+            {
+                Countdown_Timer.Enabled = false;
+            }
+            Label ID = itemsGrid.Rows[e.RowIndex].FindControl("lbl_ID") as Label;
+            TextBox Description = itemsGrid.Rows[e.RowIndex].FindControl("Description") as TextBox;
+            TextBox Time_Box = itemsGrid.Rows[e.RowIndex].FindControl("Time") as TextBox;
+            TextBox Status = itemsGrid.Rows[e.RowIndex].FindControl("Status") as TextBox;
+            Label assignedTo = itemsGrid.Rows[e.RowIndex].FindControl("AssignedTo") as Label;
+            try
+            {
+                DateTime Time_Date = new DateTime();
+                try
+                {
+                    Time_Date = DateTime.ParseExact(Time_Box.Text.Trim(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
+                }
+                catch (FormatException ex)
+                {
+                    MessageBox.Text = ex.Data+ "Please enter Due Date in {MM/dd/yyyy hh:mm:ss tt} format! ";
+                   
+                }
+                string sqlQuery = "UPDATE [Items] SET [Description] = @description, [Time] = @datevalue, [Status] = @status, [AssignedTo]=@assignedTo WHERE [ID] = @id";
+                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
+                cmd.Parameters.AddWithValue("@description", Description.Text);
+                cmd.Parameters.AddWithValue("@datevalue", Time_Date.Date);
+                cmd.Parameters.AddWithValue("@status", Status.Text);
+                cmd.Parameters.AddWithValue("@AssignedTo", assignedTo.Text);
+                cmd.Parameters.AddWithValue("@id", ID.Text);
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                itemsGrid.EditIndex = -1;
+                con.Close();
+                loadList();
+                Countdown_Timer.Enabled =true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Text = ex.Data + "Please enter all the values and try again! ";
+            }
+            finally
+            {
+                MessageBox.Text = "";
+            }
         }
         protected void DeleteRecord(string id)
         {
@@ -88,11 +142,13 @@ namespace SSEProject.Account
                 foreach (GridViewRow grow in itemsGrid.Rows)
                 {
                     CheckBox selectRow = (CheckBox)grow.FindControl("selectRow");
-                    //If CheckBox is checked than delete the record with particular id  
                     if (selectRow.Checked)
                     {
                         Label id = grow.FindControl("lbl_ID") as Label;
-                        Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
+                       if(Countdown_Timer.Enabled==true)
+                        {
+                            Countdown_Timer.Enabled = false;
+                        }
                         DeleteRecord(id.Text);
                     }
                 }
@@ -101,20 +157,22 @@ namespace SSEProject.Account
             {
                 con.Close();
                 loadList();
-                Countdown_Timer.Enabled = Countdown_Timer.Enabled;
+                Countdown_Timer.Enabled =true;
             }
         }
         protected void buttonAssign_Click(object sender, EventArgs e)
         {
-            Debug.Write("---------------------->>Entered Assign Function");
-            Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
+            if (Countdown_Timer.Enabled==true)
+            {
+                Countdown_Timer.Enabled = false;
+            }
             List<Label> ids = new List<Label>();
               foreach (GridViewRow grow in itemsGrid.Rows)
                   {
                     CheckBox selectRow = (CheckBox)grow.FindControl("selectRow");
                     if (selectRow.Checked)
                      {
-                    Debug.Write("---------------------->>checking if a row is selected-TRUE");
+                   
                     if ((grow.FindControl("lbl_Status") as Label).Text.Equals("Completed"))
                           {
                              MessageBox.Text = "Cannot Assign a Completed Item!!";
@@ -128,62 +186,24 @@ namespace SSEProject.Account
                     }
                     Session["ids"] = ids;
             if (ids.Count != 0)
-            {
-                Debug.Write("---------------------->>Before going to Assign.aspx");
+            {  
                 Response.Redirect("~/Account/Assign.aspx");
-                //Response.Write("  <script language='javascript'> window.open('Assign.aspx','','width=1020,Height=720,fullscreen=1,location=0,scrollbars=1,menubar=1,toolbar=1'); </script>");
             }
             else
             {
-                Debug.Write("---------------------->>ids count =0");
                 loadList();
-                Countdown_Timer.Enabled = Countdown_Timer.Enabled;
+                Countdown_Timer.Enabled = true;
             }
+            MessageBox.Text = "";
         }
-        protected void itemsGrid_RowUpdating(object sender, GridViewUpdateEventArgs e)
-        {
-            Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
-            Label ID = itemsGrid.Rows[e.RowIndex].FindControl("lbl_ID") as Label;
-            TextBox Description = itemsGrid.Rows[e.RowIndex].FindControl("Description") as TextBox;
-            TextBox Time_Box = itemsGrid.Rows[e.RowIndex].FindControl("Time") as TextBox;
-            TextBox Status = itemsGrid.Rows[e.RowIndex].FindControl("Status") as TextBox;
-            try
-            {
-                DateTime Time_Date = new DateTime();
-                try
-                {
-                    Time_Date = DateTime.ParseExact(Time_Box.Text.Trim(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Text = ex.Source + "Please enter Due Date in {MM/dd/yyyy hh:mm:ss tt} format! ";
-                }
-                string sqlQuery = "UPDATE [Items] SET [Description] = @description, [Time] = @datevalue, [Status] = @status WHERE [ID] = @id";
-                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
-                cmd.Parameters.AddWithValue("@description", Description.Text);
-                cmd.Parameters.AddWithValue("@datevalue", Time_Date.Date);
-                cmd.Parameters.AddWithValue("@status", Status.Text);
-                cmd.Parameters.AddWithValue("@id", ID.Text);
-                cmd.Connection = con;
-                con.Open();
-                cmd.ExecuteNonQuery();
-                itemsGrid.EditIndex = -1;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Text = "Please enter all the values and try again! ";
-            }
-            finally
-            {
-                con.Close();
-                loadList();
-                Countdown_Timer.Enabled = Countdown_Timer.Enabled;
-            }
-        }
+        
         
         protected void newRecord_Click(object sender, EventArgs e)
         {
-            Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
+            if (Countdown_Timer.Enabled==true)
+            {
+                Countdown_Timer.Enabled =false;
+            }
             NewRecord.Enabled = !NewRecord.Enabled;
             itemsGrid.ShowFooter = true;
             loadList();
@@ -200,31 +220,27 @@ namespace SSEProject.Account
                 TextBox Time = (TextBox)(grdRow.Cells[0].FindControl("tbTime"));
                 DateTime Time_Date = DateTime.ParseExact(Time.Text, "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
                 TextBox Status = (TextBox)(grdRow.Cells[0].FindControl("tbStatus"));
-                string sqlQuery = "INSERT INTO [Items] VALUES(@ID, @Description, @Time, @Status)";
+                string sqlQuery = "INSERT INTO [Items] VALUES(@ID, @Description, @Time, @Status, @AssignedTo)";
                 OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
                 cmd.Connection = con;
                 cmd.Parameters.AddWithValue("@ID", ID.Text.Trim());
                 cmd.Parameters.AddWithValue("@Description", Description.Text.Trim());
                 cmd.Parameters.AddWithValue("@Time", Time_Date.Date);
                 cmd.Parameters.AddWithValue("@Status", Status.Text.Trim());
+                cmd.Parameters.AddWithValue("@AssignedTo", " ");
                 con.Open();
                 cmd.ExecuteNonQuery();
-
+                itemsGrid.ShowFooter = false;
+                NewRecord.Enabled = NewRecord.Enabled;
+                con.Close();
+                loadList();
+                Countdown_Timer.Enabled = true;
+            
             }
             catch (Exception ex)
             {
-                MessageBox.Text = "Please enter all the values and try again! ";
-            }
-            finally
-            {
-                con.Close();
-                itemsGrid.ShowFooter = false;
-                NewRecord.Enabled = NewRecord.Enabled;
-                loadList();
-                if (!Countdown_Timer.Enabled)
-                {
-                    Countdown_Timer.Enabled = Countdown_Timer.Enabled;
-                }
+                MessageBox.Text = ex.Data+ "Please enter all the values and try again! ";
+               
             }
         }
         protected void itemsGrid_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -234,15 +250,15 @@ namespace SSEProject.Account
                 DataRowView drv = e.Row.DataItem as DataRowView;
                 if (drv["Status"].ToString().Equals("Completed"))
                 {
-                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#A4F0B7");
+                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#B0E57C");
                 }
                 else if (drv["Status"].ToString().Equals("In Progress"))
                 {
-                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFF284");
+                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml(" #FFEC94");
                 }
                 else if (drv["Status"].ToString().Equals("Ready"))
                 {
-                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#FF9797");
+                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#56BAEC");
                 }
                 else
                 {
@@ -260,6 +276,14 @@ namespace SSEProject.Account
             Thread.Sleep(500);
             commandText = "TimerRefresh";
             loadList();
+        }
+
+        protected void selectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Countdown_Timer.Enabled==true)
+            {
+                Countdown_Timer.Enabled =false;
+            }
         }
     }
 }
