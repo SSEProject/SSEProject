@@ -44,7 +44,7 @@ namespace SSEProject
                 }
                 Response.Cookies.Set(responseCookie);
 
-                System.Diagnostics.Debug.WriteLine("Got it man3333");
+               
             }
 
             Page.PreLoad += master_Page_PreLoad;
@@ -52,7 +52,7 @@ namespace SSEProject
 
         protected void master_Page_PreLoad(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Got it man");
+           
 
             if (!IsPostBack)
             {
@@ -73,7 +73,7 @@ namespace SSEProject
 
         public void RenewCurrentUser()
         {
-            System.Diagnostics.Debug.WriteLine("Got it man2222");
+            
 
             System.Web.HttpCookie authCookie =
                 System.Web.HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];

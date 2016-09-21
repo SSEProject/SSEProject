@@ -7,11 +7,12 @@ using System.Globalization;
 using System.Threading;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
 namespace SSEProject.Account
 {
     public partial class HomePage : System.Web.UI.Page
     {
-        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        SqlConnection con = new SqlConnection(@"Data Source=sseproject1.database.windows.net;Initial Catalog=sseDB;Integrated Security=False;User ID=sseAdmin;Password=sse1234Roach;Connect Timeout=15;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         string commandText = "";
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -27,32 +28,37 @@ namespace SSEProject.Account
             {
                 if (commandText != "TimerRefresh")
                 {
-                    OleDbCommand oconn = new OleDbCommand("Select * From [Items]", con);
+                    SqlCommand oconn = new SqlCommand("Select * From [Items]", con);
                     con.Open();
-                    OleDbDataAdapter da = new OleDbDataAdapter(oconn);
+                    SqlDataAdapter da = new SqlDataAdapter(oconn);
                     DataTable data = new DataTable();
                     da.Fill(data);
+                   
                     itemsGrid.DataSource = data;
                     itemsGrid.DataBind();
                 }
                 foreach (GridViewRow grow in itemsGrid.Rows)
                 {
                     Label Time = grow.FindControl("lbl_Time") as Label;
+                    Label Status = grow.FindControl("lbl_Status") as Label;
                     try
                     {
                         if (Time.Text != null)
                         {
                             DateTime Time_Date = DateTime.ParseExact(Time.Text.Trim(), "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
-                            var diff = (Time_Date.Date) - (DateTime.Now);
-                            Label lbl_Timer = grow.FindControl("lbl_Timer") as Label;
-                            if (diff.TotalSeconds > 0)
-                            {  
-                                lbl_Timer.Text = string.Format("{0} d {1:D2}:{2:D2}:{3:D2}", diff.Days, diff.Hours, diff.Minutes, diff.Seconds);
-                            }
-                            else
+                            if (Status.Text != "Completed")
                             {
-                                lbl_Timer.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFAEAE");
-                                lbl_Timer.Text = "Crossed Deadline!!";
+                                var diff = (Time_Date.Date) - (DateTime.Now);
+                                Label lbl_Timer = grow.FindControl("lbl_Timer") as Label;
+                                if (diff.TotalSeconds > 0)
+                                {
+                                    lbl_Timer.Text = string.Format("{0} d {1:D2}:{2:D2}:{3:D2}", diff.Days, diff.Hours, diff.Minutes, diff.Seconds);
+                                }
+                                else
+                                {
+                                    lbl_Timer.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFAEAE");
+                                    lbl_Timer.Text = "Crossed Deadline!!";
+                                }
                             }
                         }
                        
@@ -104,10 +110,10 @@ namespace SSEProject.Account
                     MessageBox.Text = ex.Data+ "Please enter Due Date in {MM/dd/yyyy hh:mm:ss tt} format! ";
                    
                 }
-                string sqlQuery = "UPDATE [Items] SET [Description] = @description, [Time] = @datevalue, [Status] = @status, [AssignedTo]=@assignedTo WHERE [ID] = @id";
-                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
+                string sqlQuery = "UPDATE [Items] SET [Description] = @description, [Time] = @datevalue, [Status] = @status, [AssignedTo]=@assignedTo WHERE [Id] = @id";
+                SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 cmd.Parameters.AddWithValue("@description", Description.Text);
-                cmd.Parameters.AddWithValue("@datevalue", Time_Date.Date);
+                cmd.Parameters.AddWithValue("@datevalue", Time_Date);
                 cmd.Parameters.AddWithValue("@status", Status.Text);
                 cmd.Parameters.AddWithValue("@AssignedTo", assignedTo.Text);
                 cmd.Parameters.AddWithValue("@id", ID.Text);
@@ -130,7 +136,7 @@ namespace SSEProject.Account
         }
         protected void DeleteRecord(string id)
         {
-            OleDbCommand com = new OleDbCommand("delete from [Items] where ID=@ID", con);
+            SqlCommand com = new SqlCommand("delete from [Items] where Id=@ID", con);
             com.Parameters.AddWithValue("@ID", id);
             com.ExecuteNonQuery();
         }
@@ -221,7 +227,7 @@ namespace SSEProject.Account
                 DateTime Time_Date = DateTime.ParseExact(Time.Text, "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
                 TextBox Status = (TextBox)(grdRow.Cells[0].FindControl("tbStatus"));
                 string sqlQuery = "INSERT INTO [Items] VALUES(@ID, @Description, @Time, @Status, @AssignedTo)";
-                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
+                SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 cmd.Connection = con;
                 cmd.Parameters.AddWithValue("@ID", ID.Text.Trim());
                 cmd.Parameters.AddWithValue("@Description", Description.Text.Trim());

@@ -37,10 +37,10 @@
                </asp:TemplateField>
                 <asp:TemplateField HeaderText="ID">  
                     <ItemTemplate>  
-                        <asp:Label ID="lbl_ID" runat="server" Text='<%#Eval("ID") %>'></asp:Label>  
+                        <asp:Label ID="lbl_ID" runat="server" Text='<%#Eval("Id") %>'></asp:Label>  
                     </ItemTemplate>  
-                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Description">  
                     <ItemTemplate>  
@@ -49,8 +49,8 @@
                     <EditItemTemplate>  
                         <asp:TextBox ID="Description" runat="server" Text='<%#Eval("Description") %>'></asp:TextBox>  
                     </EditItemTemplate>  
-                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle"/>
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Time">  
                     <ItemTemplate>  
@@ -59,8 +59,8 @@
                     <EditItemTemplate>  
                         <asp:TextBox ID="Time" runat="server" Text='<%#Convert.ToDateTime(Eval("Time")).ToString("MM/dd/yyyy hh:mm:ss tt")%>'></asp:TextBox>  
                     </EditItemTemplate>  
-                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle"  Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                   <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Status">  
                     <ItemTemplate>  
@@ -69,22 +69,22 @@
                     <EditItemTemplate>  
                         <asp:TextBox ID="Status" runat="server" Text='<%#Eval("Status") %>'></asp:TextBox>  
                     </EditItemTemplate>  
-                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                   <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
                 </asp:TemplateField>
                     <asp:TemplateField HeaderText="Timer">  
                     <ItemTemplate> 
                         <asp:Label ID="lbl_Timer" runat="server" Text=""></asp:Label>  
                     </ItemTemplate>  
-                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                        <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
                         <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Rockwell Extra Bold" Font-Size="X-Large" />
                 </asp:TemplateField>
                      <asp:TemplateField HeaderText="AssignedTo">  
                     <ItemTemplate>  
                         <asp:Label ID="AssignedTo" runat="server" Text='<%#Eval("AssignedTo") %>'></asp:Label>  
                     </ItemTemplate>  
-                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                    <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
                 </asp:TemplateField>
                 <asp:TemplateField>  
                     <ItemTemplate>  
@@ -138,11 +138,10 @@
                             </td>
                         </tr>
                    </EmptyDataTemplate>
-            <HeaderStyle BackColor="#669999" ForeColor="#000000"/>  
+            <HeaderStyle BackColor="#669999" ForeColor="#000000" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />  
         </asp:GridView>  
         <asp:ImageButton  width="80" height="80" ID="NewRecord" runat="server" OnClick="newRecord_Click" CommandName="Header"  ImageUrl="\Resources\Images\add-record.png"  ToolTip="Add new To-Do Item"/>
-           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
-           </asp:SqlDataSource>
+           
          </ContentTemplate>
     
        </asp:UpdatePanel>

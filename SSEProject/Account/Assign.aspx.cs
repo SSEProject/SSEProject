@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
 namespace SSEProject.Account
 {
     public partial class Assign : System.Web.UI.Page
     {
-        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        SqlConnection con = new SqlConnection(@"Data Source=sseproject1.database.windows.net;Initial Catalog=sseDB;Integrated Security=False;User ID=sseAdmin;Password=sse1234Roach;Connect Timeout=15;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -25,8 +25,8 @@ namespace SSEProject.Account
             try
             {
                 con.Open();
-                OleDbCommand cmd = new OleDbCommand("Select [Username] From [Users] ", con);
-                OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                SqlCommand cmd = new SqlCommand("Select [Username] From [Users] ", con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable data = new DataTable();
                 da.Fill(data);
                 usersDropDownList.DataSource = data;
@@ -47,9 +47,9 @@ namespace SSEProject.Account
                 DataTable data = new DataTable();
                 foreach (Label id in ids)
                 {
-                    OleDbCommand cmd = new OleDbCommand("Select * From [Items] WHERE [ID]=@ID", con);
+                    SqlCommand cmd = new SqlCommand("Select * From [Items] WHERE [Id]=@ID", con);
                     cmd.Parameters.AddWithValue("@ID", id.Text);
-                    OleDbDataAdapter da = new OleDbDataAdapter(cmd);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
                     da.Fill(data);
                 }
                 selectedItemsGrid.DataSource = data;
@@ -92,8 +92,8 @@ namespace SSEProject.Account
             string assigned = usersDropDownList.SelectedItem.Text;
             foreach (Label id in ids)
             {
-                string sqlQuery = "UPDATE [Items] SET [AssignedTo] = @assignedTo WHERE [ID] = @id";
-                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
+                string sqlQuery = "UPDATE [Items] SET [AssignedTo] = @assignedTo WHERE [Id] = @id";
+                SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 cmd.Parameters.AddWithValue("@assignedTo", assigned);
                 cmd.Parameters.AddWithValue("@id", id.Text);
                 cmd.Connection = con;

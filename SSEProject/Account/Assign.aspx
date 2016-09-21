@@ -22,22 +22,22 @@
                     <ItemTemplate>  
                         <asp:Label ID="ID" runat="server" Text='<%#Eval("ID") %>'></asp:Label>  
                     </ItemTemplate>
-                   <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                   <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large"  />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Description">  
                     <ItemTemplate>  
                         <asp:Label ID="Description" runat="server" Text='<%#Eval("Description") %>'></asp:Label>  
                     </ItemTemplate>
-                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />  
+                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />  
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Time">  
                     <ItemTemplate>  
                         <asp:Label ID="Time" runat="server" Text='<%#Convert.ToDateTime(Eval("Time")).ToString("MM/dd/yyyy hh:mm:ss tt")%>'></asp:Label>  
                     </ItemTemplate> 
-                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                     <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
+                    <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
                 </asp:TemplateField>  
                 <asp:TemplateField HeaderText="Status">  
                     <ItemTemplate>  
@@ -47,8 +47,8 @@
                     <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />    
                 </asp:TemplateField>
                   </Columns>
-        <HeaderStyle BackColor="#6495ED" ForeColor="#000000"/> 
-       <EditRowStyle BackColor="#A8E4FF" ForeColor="#000000" />
+        <HeaderStyle BackColor="#6495ED" ForeColor="#000000" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" /> 
+       <EditRowStyle BackColor="#A8E4FF" ForeColor="#000000" Font-Bold="True" Font-Names="Times New Roman" Font-Size="Large" />
         </asp:GridView>
     
         <p contenteditable="false" style="font-family: 'Times New Roman', Times, serif; font-size: 24px; font-weight: bold; font-style: normal; width: 213px;">Assign To </p>
