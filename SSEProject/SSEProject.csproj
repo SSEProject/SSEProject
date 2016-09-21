@@ -205,14 +205,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
-    <Content Include="ApplicationInsights.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\Images\hourglass_icon.jpg" />
     <Content Include="Resources\Images\nicehourglass.ico" />
     <Content Include="Resources\Images\nicehourglasssmall.png" />
     <Content Include="Resources\Sample.xlsx" />
-    <Content Include="Resources\To-Do-List.laccdb" />
+    <None Include="Properties\PublishProfiles\sseProject1 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
