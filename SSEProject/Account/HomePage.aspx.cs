@@ -7,11 +7,12 @@ using System.Globalization;
 using System.Threading;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
 namespace SSEProject.Account
 {
     public partial class HomePage : System.Web.UI.Page
     {
-        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = Z:\SSE\Git\Git\SSEProject\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        SqlConnection con = new SqlConnection(@"Data Source=sseproject1.database.windows.net;Initial Catalog=sseDB;Integrated Security=False;User ID=sseAdmin;Password=sse1234Roach;Connect Timeout=15;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
         String commandText = "";
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -27,9 +28,9 @@ namespace SSEProject.Account
             {
                 if (commandText != "TimerRefresh")
                 {
-                    OleDbCommand oconn = new OleDbCommand("Select * From [Items]", con);
+                    SqlCommand oconn = new SqlCommand("Select * From [Items]", con);
                     con.Open();
-                    OleDbDataAdapter da = new OleDbDataAdapter(oconn);
+                    SqlDataAdapter da = new SqlDataAdapter(oconn);
                     DataTable data = new DataTable();
                     da.Fill(data);
                     itemsGrid.DataSource = data;
@@ -76,7 +77,7 @@ namespace SSEProject.Account
         }
         protected void DeleteRecord(string id)
         {
-            OleDbCommand com = new OleDbCommand("delete from [Items] where ID=@ID", con);
+            SqlCommand com = new SqlCommand("delete from [Items] where ID=@ID", con);
             com.Parameters.AddWithValue("@ID", id);
             com.ExecuteNonQuery();
         }
@@ -159,7 +160,7 @@ namespace SSEProject.Account
                     MessageBox.Text = ex.Source + "Please enter Due Date in {MM/dd/yyyy hh:mm:ss tt} format! ";
                 }
                 string sqlQuery = "UPDATE [Items] SET [Description] = @description, [Time] = @datevalue, [Status] = @status WHERE [ID] = @id";
-                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
+                SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 cmd.Parameters.AddWithValue("@description", Description.Text);
                 cmd.Parameters.AddWithValue("@datevalue", Time_Date.Date);
                 cmd.Parameters.AddWithValue("@status", Status.Text);
@@ -201,7 +202,7 @@ namespace SSEProject.Account
                 DateTime Time_Date = DateTime.ParseExact(Time.Text, "MM/dd/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture);
                 TextBox Status = (TextBox)(grdRow.Cells[0].FindControl("tbStatus"));
                 string sqlQuery = "INSERT INTO [Items] VALUES(@ID, @Description, @Time, @Status)";
-                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
+                SqlCommand cmd = new SqlCommand(sqlQuery, con);
                 cmd.Connection = con;
                 cmd.Parameters.AddWithValue("@ID", ID.Text.Trim());
                 cmd.Parameters.AddWithValue("@Description", Description.Text.Trim());
