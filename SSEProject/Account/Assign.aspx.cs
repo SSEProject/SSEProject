@@ -10,7 +10,7 @@ namespace SSEProject.Account
 {
     public partial class Assign : System.Web.UI.Page
     {
-        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = Z:\SSE\Git\Git\SSEProject\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
+        OleDbConnection con = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = C:\Samreen\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password = 123456");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -54,15 +54,15 @@ namespace SSEProject.Account
                 }
                 selectedItemsGrid.DataSource = data;
                 selectedItemsGrid.DataBind();
-               
+                con.Close();
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 MessageBox.Text = ex.Data + "Please select Items to assign! ";
             }
             finally
             {
-                con.Close();
+                MessageBox.Text = "";
             }
         }
         protected void itemsGrid_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -72,17 +72,47 @@ namespace SSEProject.Account
                 DataRowView drv = e.Row.DataItem as DataRowView;
                 if (drv["Status"].ToString().Equals("In Progress"))
                 {
-                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#FFF284");
+                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml(" #FFEC94");
                 }
                 else if (drv["Status"].ToString().Equals("Ready"))
                 {
-                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#FF9797");
+                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#56BAEC");
                 }
                 else
                 {
                     e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#C0C0C0");
                 }
             }
+        }
+
+        protected void ButtonAssignGo_Click(object sender, ImageClickEventArgs e)
+        {
+
+            List<Label> ids = (List<Label>)System.Web.HttpContext.Current.Session["ids"];
+            string assigned = usersDropDownList.SelectedItem.Text;
+            foreach (Label id in ids)
+            {
+                string sqlQuery = "UPDATE [Items] SET [AssignedTo] = @assignedTo WHERE [ID] = @id";
+                OleDbCommand cmd = new OleDbCommand(sqlQuery, con);
+                cmd.Parameters.AddWithValue("@assignedTo", assigned);
+                cmd.Parameters.AddWithValue("@id", id.Text);
+                cmd.Connection = con;
+                try
+                {
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Text = ex.Data + "Cannot connect to the Database! ";
+                }
+                finally
+                {
+                    MessageBox.Text = "";
+                }
+            }
+            Response.Redirect("~/Account/HomePage.aspx");
         }
     }
 }
