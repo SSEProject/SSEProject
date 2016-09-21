@@ -26,7 +26,7 @@
           
          <asp:Label ID="MessageBox" runat="server" BackColor="#FF9999" BorderColor="#CC0000" BorderStyle="Double" BorderWidth="1px" Font-Bold="True" Font-Italic="False" Font-Names="Times New Roman" Font-Size="Large" ForeColor="Black"></asp:Label>
     
-           <asp:GridView ID="itemsGrid" runat="server" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating" Width="1350px" >  
+           <asp:GridView ID="itemsGrid" runat="server" AutoGenerateColumns="False" CellPadding="6" OnRowDataBound="itemsGrid_RowDataBound" OnRowCancelingEdit="itemsGrid_RowCancelingEdit" OnRowEditing="itemsGrid_RowEditing" OnRowUpdating="itemsGrid_RowUpdating" Width="1350px" OnSelectedIndexChanged="itemsGrid_SelectedIndexChanged" >  
                 <Columns>  
                  <asp:TemplateField HeaderText="Select">
                     <ItemTemplate>
@@ -134,7 +134,7 @@
             <HeaderStyle BackColor="#669999" ForeColor="#000000"/>  
         </asp:GridView>  
         <asp:ImageButton  width="80" height="80" ID="NewRecord" runat="server" OnClick="newRecord_Click" CommandName="Header"  ImageUrl="\Resources\Images\add-record.png"  ToolTip="Add new To-Do Item"/>
-           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\noama\Documents\Projects\SSEProject\Resources\ToDoList.accdb;Persist Security Info=True;Jet OLEDB:Database Password=123456" ProviderName="System.Data.OleDb" SelectCommand="SELECT * FROM [Items]">
+           <asp:SqlDataSource ID="TestDB" runat="server" ConnectionString="<%$ ConnectionStrings:sseDBConnectionString %>" SelectCommand="SELECT * FROM [Items]">
            </asp:SqlDataSource>
          </ContentTemplate>
     

@@ -66,7 +66,7 @@ namespace SSEProject.Account
         {
             Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
             itemsGrid.EditIndex = e.NewEditIndex;
-             loadList();
+            loadList();
         }
         protected void itemsGrid_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
@@ -84,7 +84,7 @@ namespace SSEProject.Account
         {
             try
             {
-               con.Open();
+                con.Open();
                 foreach (GridViewRow grow in itemsGrid.Rows)
                 {
                     CheckBox selectRow = (CheckBox)grow.FindControl("selectRow");
@@ -109,24 +109,24 @@ namespace SSEProject.Account
             Debug.Write("---------------------->>Entered Assign Function");
             Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
             List<Label> ids = new List<Label>();
-              foreach (GridViewRow grow in itemsGrid.Rows)
-                  {
-                    CheckBox selectRow = (CheckBox)grow.FindControl("selectRow");
-                    if (selectRow.Checked)
-                     {
+            foreach (GridViewRow grow in itemsGrid.Rows)
+            {
+                CheckBox selectRow = (CheckBox)grow.FindControl("selectRow");
+                if (selectRow.Checked)
+                {
                     Debug.Write("---------------------->>checking if a row is selected-TRUE");
                     if ((grow.FindControl("lbl_Status") as Label).Text.Equals("Completed"))
-                          {
-                             MessageBox.Text = "Cannot Assign a Completed Item!!";
-                             
-                            }
-                            else
-                            {
-                                ids.Add(grow.FindControl("lbl_ID") as Label);
-                            }
-                        }
+                    {
+                        MessageBox.Text = "Cannot Assign a Completed Item!!";
+
                     }
-                    Session["ids"] = ids;
+                    else
+                    {
+                        ids.Add(grow.FindControl("lbl_ID") as Label);
+                    }
+                }
+            }
+            Session["ids"] = ids;
             if (ids.Count != 0)
             {
                 Debug.Write("---------------------->>Before going to Assign.aspx");
@@ -180,7 +180,7 @@ namespace SSEProject.Account
                 Countdown_Timer.Enabled = Countdown_Timer.Enabled;
             }
         }
-        
+
         protected void newRecord_Click(object sender, EventArgs e)
         {
             Countdown_Timer.Enabled = !Countdown_Timer.Enabled;
@@ -261,5 +261,6 @@ namespace SSEProject.Account
             commandText = "TimerRefresh";
             loadList();
         }
+        
     }
 }
